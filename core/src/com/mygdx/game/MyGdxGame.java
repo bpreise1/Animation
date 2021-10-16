@@ -42,38 +42,39 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		basketballAtlas = new TextureAtlas(Gdx.files.internal("Basketball.atlas"));
 		animation = new Animation<TextureRegion>(.075f, basketballAtlas.getRegions());
-		basketball = basketballAtlas.createSprite("1");
+		basketball = new Sprite(basketballAtlas.findRegion("1"));
 		dx = 10;
 		x = 0;
 		y = 0;
 
 		Gdx.input.setInputProcessor(new GestureDetector(new GestureDetector.GestureAdapter() {
 			@Override
-			public boolean fling(float velocityX, float velocityY, int button) {
-				System.out.println(velocityX + "," + velocityY);
+			public boolean touchDown(float x, float y, int pointer, int button) {
+				System.out.println(x + ", " + y);
 				return true;
 			}
 		}));
 
 		Box2D.init();
-		world = new World(new Vector2(0, -10), true);
+		world = new World(new Vector2(0, -20), true);
+		ball = new Ball(batch, world, x, y);
 	}
 
 	@Override
 	public void render () {
-		System.out.println(ball.basketball.getPosition().x + ", " + ball.basketball.getPosition().y);
 		ScreenUtils.clear(0, 0, 0, 1);
+
+		world.step(1f / 60f, 8 ,3);
 
 		elapsedTime += Gdx.graphics.getDeltaTime();
 
 		batch.begin();
-		if(y == 0) {//do dribbling animation if ball is on the ground
-			batch.draw(animation.getKeyFrame(elapsedTime, true), x, y, 500, 500);
-		}
-		else {//otherwise just draw ball
-			basketball.setSize(500, 500);
-			basketball.draw(batch);
-		}
+
+		basketball.draw(batch);
+
+		//batch.draw(animation.getKeyFrame(elapsedTime, true), x, y, 500, 500);
+		ball.display();
+
 		batch.end();
 	}
 	

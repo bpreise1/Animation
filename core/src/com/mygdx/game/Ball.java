@@ -1,5 +1,8 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -11,26 +14,47 @@ public class Ball {
 
     public Body basketball;
 
-    public Ball(World world, float x, float y) {
+    public Ball(Batch batch_, World world, float x, float y) {
+
+        //DEFINE BODY
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(new Vector2(x, y));
+        bodyDef.position.set(new Vector2(x, y));//given pixel coords but needs world coords
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(.5f);
+        //CREATE BODY
+        basketball = world.createBody(bodyDef);
 
+        //CREATE SHAPE
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(.005f);
+
+        //CREATE FIXTURE
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.density = .1f;
         fixtureDef.restitution = .8f;
         fixtureDef.friction = .5f;
         fixtureDef.shape = circleShape;
 
-        basketball = world.createBody(bodyDef);
+        //ATTACH FIXTURE TO BODY
         basketball.createFixture(fixtureDef);
-        circleShape.dispose();
+
+        img = new Texture(Gdx.files.internal("static_ball.png"));
+        batch = batch_;
     }
 
-    public void applyForce(Vector2 force, float forceX, float forceY) {
+    public void applyForce(float forceX, float forceY) {
         basketball.applyForceToCenter(forceX, forceY, true);
     }
+
+    public void display() {
+        if(basketball.getPosition().y > -200) {
+            batch.draw(img, basketball.getPosition().x, basketball.getPosition().y, 500, 500);
+        }
+        else {
+            batch.draw(img, basketball.getPosition().x, -200, 500, 500);
+        }
+    }
+
+    private Batch batch;
+    private Texture img;
 }
