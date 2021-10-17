@@ -18,7 +18,7 @@ public class Ball {
 
         //DEFINE BODY
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(new Vector2(x, y));//given pixel coords but needs world coords
+        bodyDef.position.set(new Vector2(x, y));//pixel coords work if use ortho camera 50x50
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         //CREATE BODY

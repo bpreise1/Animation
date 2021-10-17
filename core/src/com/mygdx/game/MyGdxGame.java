@@ -36,7 +36,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		camera = new OrthographicCamera();
-		viewport = new ExtendViewport(50, 50, camera);
+		viewport = new ExtendViewport(50, 50, camera);//50x50 camera fixes world-screen coordinate discrepancy
 
 		batch = new SpriteBatch();
 
@@ -64,7 +64,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 
-		world.step(1f / 60f, 8 ,3);
+		world.step(1f / 60f, 8 ,3);//step physics engine
 
 		elapsedTime += Gdx.graphics.getDeltaTime();
 
@@ -92,6 +92,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 	}
 
+	//MAKE WALLS BELOW
 	public Body createGround() {
 		BodyDef g = new BodyDef();
 		g.type = BodyDef.BodyType.StaticBody;
