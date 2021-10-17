@@ -3,7 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -71,7 +70,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		batch.begin();
 
-		if(ball.display()) {
+		if(ball.display()) {//only display dribble animation if ball on the ground
 			batch.draw(animation.getKeyFrame(elapsedTime, true), ball.basketball.getPosition().x, ball.basketball.getPosition().y, 10, 10);
 		}
 
@@ -103,6 +102,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		fixtureDef.shape = shape;
 		shape.setAsBox(100, 0);
 		body.createFixture(fixtureDef);
+		shape.dispose();
 		return body;
 	}
 
@@ -116,6 +116,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		fixtureDef.shape = shape;
 		shape.setAsBox(0, 100);
 		body.createFixture(fixtureDef);
+		shape.dispose();
 		return body;
 	}
 
@@ -129,6 +130,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		fixtureDef.shape = shape;
 		shape.setAsBox(0, 100);
 		body.createFixture(fixtureDef);
+		shape.dispose();
 		return body;
 	}
 
@@ -142,6 +144,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		fixtureDef.shape = shape;
 		shape.setAsBox(100, 0);
 		body.createFixture(fixtureDef);
+		shape.dispose();
 		return body;
 	}
 
