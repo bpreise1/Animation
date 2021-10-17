@@ -40,6 +40,8 @@ public class Ball {
 
         img = new Texture(Gdx.files.internal("static_ball.png"));
         batch = batch_;
+
+        circleShape.dispose();
     }
 
     public void applyForce(float forceX, float forceY) {
@@ -47,14 +49,11 @@ public class Ball {
     }
 
     public boolean display() {
-        if(basketball.getPosition().y > -200) {
-            batch.draw(img, basketball.getPosition().x, basketball.getPosition().y, 500, 500);
+        if(basketball.getLinearVelocity().y == 0) {
             return true;
         }
-        else {
-            basketball.setTransform(0, -200, 0);
-            return false;
-        }
+        batch.draw(img, basketball.getPosition().x, basketball.getPosition().y, 10, 10);
+        return false;
     }
 
     private Batch batch;
