@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,7 +29,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	World world;
 	Ball ball;
-	private Sprite basketball;
+	Texture astronaut;
 	private TextureAtlas basketballAtlas;
 	private Animation<TextureRegion> animation;
 	private float elapsedTime = 0f;
@@ -40,9 +41,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 
+		astronaut = new Texture(Gdx.files.internal("amogus.jpeg"));
 		basketballAtlas = new TextureAtlas(Gdx.files.internal("Basketball.atlas"));
 		animation = new Animation<TextureRegion>(.075f, basketballAtlas.getRegions());
-		basketball = new Sprite(basketballAtlas.findRegion("1"));
 		dx = 10;
 		x = 0;
 		y = 0;
@@ -50,7 +51,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(new GestureDetector(new GestureDetector.GestureAdapter() {
 			@Override
 			public boolean touchDown(float x, float y, int pointer, int button) {
-				System.out.println(x + ", " + y);
+				ball.applyForce(0, 100);
 				return true;
 			}
 		}));
@@ -70,10 +71,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		batch.begin();
 
-		basketball.draw(batch);
+		batch.draw(astronaut, 500, 0);
 
-		//batch.draw(animation.getKeyFrame(elapsedTime, true), x, y, 500, 500);
-		ball.display();
+		if(!ball.display()) {
+			batch.draw(animation.getKeyFrame(elapsedTime, true), ball.basketball.getPosition().x, y, 500, 500);
+		}
 
 		batch.end();
 	}

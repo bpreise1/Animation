@@ -46,12 +46,14 @@ public class Ball {
         basketball.applyForceToCenter(forceX, forceY, true);
     }
 
-    public void display() {
+    public boolean display() {
         if(basketball.getPosition().y > -200) {
             batch.draw(img, basketball.getPosition().x, basketball.getPosition().y, 500, 500);
+            return true;
         }
         else {
-            batch.draw(img, basketball.getPosition().x, -200, 500, 500);
+            basketball.setTransform(0, -200, 0);
+            return false;
         }
     }
 
